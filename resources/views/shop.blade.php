@@ -42,7 +42,7 @@
                 <div class="flex flex-col">
                     <a href="{{route('shop.show', ['slug' => $product->slug])}}">
                         <div class="flex justify-center w-full mb-1">
-                            <img src="{{$product->img}}" alt="" class="rounded w-full h-64 sm:h-32 md:h-48 object-cover">
+                            <img src="{{  productImage($product->image) }}" alt="" class="rounded w-full h-64 sm:h-32 md:h-48 object-cover">
                         </div>
                     </a>
                     <a href="{{route('shop.show', ['slug' => $product->slug])}}">

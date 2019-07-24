@@ -17,9 +17,18 @@
 <div>
     <div class="container mx-auto flex flex-wrap">
         <div class="w-full md:w-1/2">
-            <div class="px-10 py-10 flex justify-center items-center">
-                <img src="{{ asset('storage/'.$product->image) }}}" alt="" class="w-64 h-64 object-cover">
+            <div class="px-10 py-10 flex justify-center items-center" >
+                <img src="{{ productImage($product->image)}}" alt="" class="w-64 h-64 object-cover" id="currentImage">
                 {{-- <img src="{{$product->img}}" alt="" class="w-64 h-64 object-cover"> --}}
+            </div>
+            <div class="flex flex-wrap justify-start max-w-full px-10">
+               @if ($product->images)
+               @foreach (json_decode($product->images, true) as $image)
+                   <div class="w-1/4 h-20 mb-2 border-2 border-transparent hover:border-2 hover:border-gray-600 productImages">
+                       <img src="{{ productImage($image) }}" alt="" class="w-full h-full object-cover">
+                    </div>
+              @endforeach
+               @endif
             </div>
         </div>
         <div class="w-full md:w-1/2">
@@ -52,5 +61,20 @@
 @endsection
 
 @section('scripts')
+    <script>
+        const currentImage = document.querySelector('#currentImage');
 
+        const images = document.querySelectorAll('.productImages');
+
+        images.forEach((element) => element.addEventListener('click', imageClick));
+
+        function imageClick(e) {
+
+            currentImage.src = this.querySelector('img').src;
+
+            images.forEach((element) => element.classList.remove('selected'));
+            this.classList.add('selected');
+
+        }
+    </script>
 @endsection

@@ -109,7 +109,7 @@
                     @foreach (Cart::instance('default')->content() as $item)
                     <div class="flex justify-between items-center border-b py-2 px-2 border-gray-900">
                         <div>
-                            <a href="{{route('shop.show', $item->model->slug)}}"><img src="{{$item->model->img}}" alt="" class="h-12"></a>
+                            <a href="{{route('shop.show', $item->model->slug)}}"><img src="{{ productImage($item->model->image) }}" alt="" class="h-12"></a>
                             {{-- <a href="{{route('shop.show', $item->model->slug)}}"><img src="{{$products->find($item->id)->img}}" alt="" class="h-24"></a> --}}
                         </div>
                         <div>
