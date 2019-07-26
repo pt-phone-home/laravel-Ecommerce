@@ -8,7 +8,7 @@
         @if ($errors->count() > 0)
             <ul class="bg-red-500 text-gray-100 px-4 py-4">
                 @foreach ($errors->all() as $error)
-                    <li>{{$error}}</li>
+                    <li>{!! $error !!}</li>
                 @endforeach
             </ul>
         @endif

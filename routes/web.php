@@ -31,8 +31,9 @@ Route::delete('/saveForLater/{product}', 'SaveForLaterController@destroy')->name
 Route::post('/saveForLater/switchToCart/{product}', 'SaveForLaterController@switchToCart')->name('saveForLater.switchToCart');
 
 // CHECKOUT
-Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
+Route::get('/checkout', 'CheckoutController@index')->name('checkout.index')->middleware('auth');
 Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');
+Route::get('/guestCheckout', 'CheckoutController@index')->name('guestCheckout.index');
 
 // COUPONS
 Route::post('/coupon', 'CouponsController@store')->name('coupon.store');

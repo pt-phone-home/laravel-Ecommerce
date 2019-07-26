@@ -50,7 +50,11 @@
                     </div>
                     <div class="flex flex-col">
                         <label for="email" class="text-sm text-gray-600">Email Address:</label>
+                        @if (auth()->user())
+                        <input type="email" name="email" class="border text-gray-600 pl-2 border-gray-400 w-full" value="{{ auth()->user()->email }}" readonly>
+                        @else
                         <input type="email" name="email" class="border border-gray-400 w-full" value="{{ old('email') }}" required>
+                        @endif
                     </div>
                     <div class="flex flex-col mt-4">
                         <label for="name" class="text-sm text-gray-600">Full Name:</label>
