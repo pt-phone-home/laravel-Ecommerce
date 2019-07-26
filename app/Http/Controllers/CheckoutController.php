@@ -26,7 +26,13 @@ class CheckoutController extends Controller
         // $newTotal = $newSubtotal + $newTax;
 
 
+        if (Cart::instance('default')->count() == 0) {
+            return redirect()->route('shop.index');
+        }
 
+        if (auth()->user() && request()->is('guestCheckout')) {
+            return redirect()->route('checkout.index');
+        }
 
         $cart = Cart::instance('default')->content();
         return view('checkout')->with([

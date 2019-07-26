@@ -26,7 +26,7 @@
             @foreach ($cartItems as $item)
                 <div class="py-4 px-4 flex  w-3/4 justify-around items-center border-t border-gray-900 ">
                     <div>
-                        <a href="{{route('shop.show', $item->model->slug)}}"><img src="{{$item->model->img}}" alt="" class="h-24 w-32"></a>
+                        <a href="{{route('shop.show', $item->model->slug)}}"><img src="{{ productImage($item->model->image) }}" alt="" class="h-24 w-32"></a>
                         {{-- <a href="{{route('shop.show', $item->model->slug)}}"><img src="{{$products->find($item->id)->img}}" alt="" class="h-24"></a> --}}
                     </div>
                     <div>

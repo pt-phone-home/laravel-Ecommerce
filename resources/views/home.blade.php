@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.page-master')
 
 @section('content')
-    <div class="flex items-center">
+    <div class="flex items-center mt-4">
         <div class="md:w-1/2 md:mx-auto">
 
             @if (session('status'))
