@@ -93,7 +93,7 @@
                                 <label for="categories">Categories</label>
                                 <ul style="list-style-type:none; padding-left:0;">
                                     @foreach ($allCategories as $category)
-                                        <li><label for=""><input value="{{ $category->id }}" type="checkbox" name="category[]" style="margin-right: 5px;">{{ $category->name }}</label></li>
+                                        <li><label for=""><input value="{{ $category->id }}" type="checkbox" name="category[]" style="margin-right: 5px;" {{ $categoriesForProduct->contains($category) ? 'checked': '' }}>{{ $category->name }}</label></li>
                                     @endforeach
                                 </ul>
 
