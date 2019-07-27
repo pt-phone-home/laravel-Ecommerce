@@ -106,4 +106,9 @@ class ShopController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+    {
+        return view('searchResults');
+    }
 }

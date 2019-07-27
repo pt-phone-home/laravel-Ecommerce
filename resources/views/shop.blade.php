@@ -6,10 +6,16 @@
 
 @section('content')
 <div>
-    <div class="container mx-auto bg-gray-300 flex items-baseline pl-10 py-4">
-        <a href="/">Home</a>
-        <span class="px-2 text-sm"><i class="fal fa-chevron-right"></i></span>
-        <span>Shop</span>
+    <div class="container mx-auto bg-gray-300 flex justify-between items-baseline pl-10 py-4">
+        <div class="w-1/3">
+            <a href="/">Home</a>
+            <span class="px-2 text-sm"><i class="fal fa-chevron-right"></i></span>
+            <span>Shop</span>
+        </div>
+        <div class="w-1/3">
+            <i class="far fa-search mr-2 text-gray-600 text-lg"></i>
+            <input type="search" name="query"class="w-4/5 px-2 py-1 rounded-lg text-gray-500" placeholder="Search for product">
+        </div>
     </div>
 </div>
 <div class="mt-4 pt-10">
