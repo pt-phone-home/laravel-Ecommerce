@@ -46,6 +46,9 @@ Route::get('emptysession', function () {
 // THANK YOU
 Route::get('/thankyou', 'IndexPageController@thankYou')->name('thankyou.index');
 
+//Search
+
+Route::get('/search', 'ShopController@search')->name('search');
 
 
 Route::get('/empty', function () {
