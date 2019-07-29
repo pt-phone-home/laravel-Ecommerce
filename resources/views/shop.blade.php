@@ -13,11 +13,11 @@
             <span>Shop</span>
         </div>
         <div class="w-1/3">
-            <i class="far fa-search mr-2 text-gray-600 text-lg"></i>
-            <input type="search" name="query"class="w-4/5 px-2 py-1 rounded-lg text-gray-500" placeholder="Search for product">
+            @include('partials.search')
         </div>
     </div>
 </div>
+@include('inc.messages')
 <div class="mt-4 pt-10">
     <div class="container mx-auto flex flex-wrap ">
         <div class="w-full md:w-1/4 bg-green-100 sticky top-0 ">

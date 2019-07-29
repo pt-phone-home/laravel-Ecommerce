@@ -16,7 +16,7 @@
 
     <div class="container mx-auto flex justify-start py-8">
         @else
-            <h2 class="text-gray-900 text-3xl">{{Cart::instance('default')->count()}} Item(s) in Your Cart</h2>
+            <h2 class="text-gray-900 text-3xl">{{Cart::count()}} Item(s) in Your Cart</h2>
     </div>
 
 </div>
@@ -51,21 +51,11 @@
                         {{-- <a href=""><p class="text-xs">Save for later</p></a> --}}
                     </div>
                     <div>
-                        <select name="qty" id="" class="quantity" data-id="{{ $item->rowId }}">
+                        <select name="qty" id="" class="quantity" data-id="{{ $item->rowId }}" data-productQuantity="{{ $item->model->quantity }}">
                                 @for ($i = 1; $i < 5 + 1; $i++)
                                     <option {{ $item->qty == $i ? 'selected' : '' }}>{{ $i }}</option>
                                 @endfor
-                                {{-- <option value="1" {{ $item->qty == 1? 'selected' : '' }}>1</option>
-                                <option value="2" {{ $item->qty == 2? 'selected' : '' }}>2</option>
-                                <option value="3" {{ $item->qty == 3? 'selected' : '' }}>3</option>
-                                <option value="4" {{ $item->qty == 4? 'selected' : '' }}>4</option>
-                                <option value="5" {{ $item->qty == 5? 'selected' : '' }}>5</option> --}}
                         </select>
-
-                        {{-- <span id="increaseQty" class="decrease">-</span>
-                        <span id="qty" class="quantity quantity2">{{ $item->qty }}</span>
-                        <span id="qty" class="quantity quantity2">1</span>
-                        <span id="decreaseQty" class="increase">+</span> --}}
                     </div>
                     <div>
                         <p>{{$item->model->presentPrice()}}</p>
@@ -77,9 +67,24 @@
                 </div>
             @endforeach
             @endif
+            @if (!session()->has('coupon'))
+        <div class="flex flex-col mt-10 w-3/4">
+            <h1 class="mb-2">Have a coupon code?</h1>
+            <form action="{{ route('coupon.store') }}" method="POST" class="flex w-full items-baseline px-6 py-6 border border-gray-600">
+                @csrf
+                <div class="w-1/2">
+                    <input type="text" class="border border-gray-300 w-full h-10 text-lg" name="coupon_code" id="coupon_code">
+                </div>
+                <div class="w-1/2 text-center">
+                    <button class="btn">Apply</button>
+                </div>
+            </form>
         </div>
+        @endif
+        </div>
+
     </div>
-    @if (Cart::instance('default')->content()->count() > 0)
+    @if (Cart::content()->count() > 0)
 <div class="mt-4">
     <div class="container mx-auto flex flex-wrap justify-center w-full">
         <div class="flex w-3/4 mt-10 py-4 bg-gray-300 px-4 mb-4">
@@ -88,9 +93,43 @@
             </div>
             <div class="flex flex-col items-end justify-between w-full sm:w-1/2">
                 <div>
-                    <p class="text-gray-600 text-sm">Subtotal: €{{Cart::instance('default')->subTotal()}}</p>
+                    <p class="text-gray-600 text-sm">Subtotal: €{{ Cart::subTotal()}}</p>
                 </div>
-                <div>
+                @if (session()->get('coupon'))
+                <div class="flex justify-between py-1 px-2 text-gray-600 w-full">
+                    <p>Discount: {{ session()->get('coupon')['name'] }}</p>
+                    <div>
+                            <form action="{{ route('coupon.destroy') }}" method="POST">
+                            @csrf
+                            @method("DELETE")
+                            <button type="submit" class="btn-danger">Remove</button>
+                            </form>
+                        </div>
+                    <div>{{ $discount }}</div>
+                </div>
+                @endif
+                @if (session()->has('coupon'))
+                <hr class="w-full border-b border-gray-400">
+                <div class="flex justify-between py-1 px-2 text-gray-600">
+                    <p>Total (including discount):</p> <div>{{ $newSubtotal }}</div>
+                    {{-- <p>Total (including discount):</p> <div>{{ Cart::subTotal() }}</div> --}}
+                </div>
+                <div class="flex justify-between py-1 px-2 text-gray-600">
+                    <p>Tax:</p> <div>{{ $newTax }}</div>
+                </div>
+                <div class="flex justify-between py-1 px-2">
+                    <p>Total:</p> <div>{{ $newTotal }}</div>
+                </div>
+                @else
+                <div class="flex justify-between py-1 px-2 text-gray-600">
+                    <p>Tax:</p> <div>{{ Cart::Tax() }}</div>
+                </div>
+
+                <div class="flex justify-between py-1 px-2">
+                    <p>Total:</p> <div>{{ Cart::total() }}</div>
+                </div>
+                @endif
+                {{-- <div>
                     <p class="text-gray-600 text-sm">
                         Tax: €{{Cart::instance('default')->Tax()}}
                     </p>
@@ -99,14 +138,21 @@
                     <p class="text-gray-800">
                         Total: €{{Cart::instance('default')->total()}}
                     </p>
-                </div>
+                </div> --}}
 
             </div>
         </div>
     </div>
+    {{-- <div class="flex justify-between py-1 px-2 text-gray-600">
+        <p>Subtotal:</p> <div>{{ Cart::subTotal() }}</div>
+     </div> --}}
+
+
+
+
 </div>
     @endif
-    @if (Cart::instance('default')->count() > 0)
+    @if (Cart::count() > 0)
     <div class="my-6">
         <div class="container mx-auto flex justify-center">
             <div class="w-1/2 flex justify-between">
@@ -187,9 +233,11 @@
 
        Array.from(classname).forEach(function (element){
            element.addEventListener('change', function(){
-               const id = element.getAttribute('data-id')
+               const id = element.getAttribute('data-id');
+               const productQuantity = element.getAttribute('data-productQuantity');
                axios.patch(`/cart/${id}`, {
-                   quantity: this.value
+                   quantity: this.value,
+                   productQuantity: productQuantity,
                })
                .then(function(response) {
                 //    console.log(response);

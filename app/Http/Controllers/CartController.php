@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Cart;
+// use Cart;
+use Validator;
 use App\Product;
 use Illuminate\Http\Request;
-use Validator;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 
 
@@ -19,8 +20,8 @@ class CartController extends Controller
      */
     public function index()
     {
-
-        $cartItems = Cart::content();
+        // $cart = Cart::content();
+        $cartItems = Cart::instance('default')->content();
         $ids = $cartItems->pluck('id');
         $products = Product::findMany($ids);
         // dd($ids, $cartItems, $products);
@@ -30,7 +31,22 @@ class CartController extends Controller
         $saveForLaterIds = $saveForLaterItems->pluck('id');
         $saveForLaterProducts = Product::findMany($saveForLaterIds);
         // dd($saveForLaterItems);
-        return view('cart', compact('mightAlsoLike', 'cartItems', 'products', 'saveForLaterItems', 'saveForLaterProducts'));
+        // return view('cart', compact('mightAlsoLike', 'cartItems', 'products', 'saveForLaterItems', 'saveForLaterProducts'));
+        // $numbers = getNumbers()->get('cartSubtotal');
+        // dd($numbers);
+        return view('cart')->with([
+            // 'cart' => $cart,
+            'mightAlsoLike' => $mightAlsoLike,
+            'cartItems' => $cartItems,
+            'products' => $products,
+            'saveForlaterItems' => $saveForLaterItems,
+            'saveForLaterProducts' => $saveForLaterProducts,
+            'discount' => getNumbers()->get('discount'),
+            'cartSubtotal' => getNumbers()->get('cartSubtotal'),
+            'newSubtotal' => getNumbers()->get('newSubtotal'),
+            'newTax' => getNumbers()->get('newTax'),
+            'newTotal' => getNumbers()->get('newTotal')
+        ]);
     }
 
     /**
@@ -109,6 +125,11 @@ class CartController extends Controller
 
         if ($validator->fails()) {
             session()->flash('errors', collect(['Quantity must be between 1 and 5']));
+            return response()->json(['success' => false], 400);
+        }
+
+        if ($request->quantity > $request->productQuantity) {
+            session()->flash('errors', collect(['Not enough items in stock']));
             return response()->json(['success' => false], 400);
         }
 
