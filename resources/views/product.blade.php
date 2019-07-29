@@ -15,8 +15,7 @@
             <span>{{$product->name}}</span>
         </div>
         <div class="w-1/3">
-            <i class="far fa-search mr-2 text-gray-600 text-lg"></i>
-            <input type="search" name="query" class="w-4/5 px-2 py-1 rounded-lg text-gray-500" placeholder="Search for product">
+            @include('partials.search')
         </div>
     </div>
 </div>
@@ -47,8 +46,18 @@
                     <h2 class="font-bold text-3xl text-gray-800">{{$product->presentPrice()}}</h2>
                 </div>
                 <div class="mt-4">
+                    @if ($product->quantity >= 10)
+                        <p class="text-green-700">In Stock</p>
+                    @elseif ($product->quanity <= 5 && $product->quantity >= 1 )
+                        <p class="text-red-500">Only {{ $product->quantity }} remaining </p>
+                    @elseif ($product->quanity == 0)
+                        <p class="text-red-700"> Product out of stock</p>
+                    @endif
+                </div>
+                <div class="mt-4">
                     <p class="text-gray-600">{!! $product->description !!}</p>
                 </div>
+                @if ($product->quantity  > 0)
                 <div class="flex justify-center mt-4">
                     <form action="{{route('cart.store')}}" method="POST">
                         @csrf
@@ -58,6 +67,12 @@
                         <button type="submit" class="bg-transparent hover:bg-gray-900 text-gray-900 hover:text-gray-100 border hover:border border-gray-900 hover:border-gray-100 px-4 py-2 uppercase tracking-wider font-bold w-30">Add to Cart</button>
                     </form>
                 </div>
+                @else
+                <div class="flex justify-center mt-4">
+                    <p class="text-red-600">Product currently out of stock, please check back soon</p>
+                </div>
+                @endif
+
             </div>
         </div>
     </div>

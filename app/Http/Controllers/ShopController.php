@@ -109,6 +109,14 @@ class ShopController extends Controller
 
     public function search(Request $request)
     {
-        return view('searchResults');
+        $request->validate(['query' => 'required|min:3']);
+        $search = $request->input('query');
+        $products = Product::where('name', 'like', "%$search%")
+            ->orWhere('details', 'like', "%$search%")
+            ->orWhere('description', 'like', "%$search%")->paginate(5);
+
+        // $products = Product::search('test')->paginate(5);
+
+        return view('searchResults', compact('products'));
     }
 }

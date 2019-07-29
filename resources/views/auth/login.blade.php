@@ -6,7 +6,7 @@
             <div class="w-full max-w-sm mt-3">
                 <div class="flex flex-col break-words bg-white border border-2 rounded shadow-md">
 
-                    <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
+                    <div class="font-semibold bg-gray-800 text-gray-100 py-3 px-6 mb-0">
                         {{ __('Login') }}
                     </div>
 
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="flex flex-wrap items-center">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-gray-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            <button type="submit" class="bg-gray-800 hover:bg-gray-700 text-gray-100 hover:text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 {{ __('Login') }}
                             </button>
 
@@ -69,7 +69,7 @@
                                 </p>
                             @endif
                             <p class="w-full text-xs text-center text-gray-700 mt-8 mb-1">
-                                <a href="{{ route('guestCheckout.index') }}" class="bg-blue-500 hover:bg-blue-700 text-gray-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Checkout as guest</a>
+                                <a href="{{ route('guestCheckout.index') }}" class="bg-gray-800 hover:bg-gray-700 text-gray-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Checkout as guest</a>
                             </p>
                         </div>
                     </form>

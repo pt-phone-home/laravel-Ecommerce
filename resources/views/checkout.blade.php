@@ -171,20 +171,7 @@
 
                     </div>
                 </div>
-                @if (!session()->has('coupon'))
-                <div class="flex flex-col mt-10">
-                    <h1 class="mb-2">Have a coupon code?</h1>
-                    <form action="{{ route('coupon.store') }}" method="POST" class="flex w-full items-baseline px-6 py-6 border border-gray-600">
-                        @csrf
-                        <div class="w-1/2">
-                            <input type="text" class="border border-gray-300 w-full h-10 text-lg" name="coupon_code" id="coupon_code">
-                        </div>
-                        <div class="w-1/2 text-center">
-                            <button class="btn">Apply</button>
-                        </div>
-                    </form>
-                </div>
-                @endif
+
             </div>
         </div>
     </div>
