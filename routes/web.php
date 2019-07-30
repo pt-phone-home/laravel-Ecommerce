@@ -43,6 +43,15 @@ Route::get('emptysession', function () {
     session()->flush();
 });
 
+// Profile
+
+Route::middleware('auth')->group(function () {
+    Route::get('/myprofile', 'UsersController@edit')->name('users.edit');
+    Route::patch('/myprofile', 'UsersController@update')->name('users.update');
+    Route::get('/myorders', 'OrdersController@index')->name('orders.index');
+    Route::get('/myorders/{order}', 'OrdersController@show')->name('orders.show');
+});
+
 // THANK YOU
 Route::get('/thankyou', 'IndexPageController@thankYou')->name('thankyou.index');
 
